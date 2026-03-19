@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Habilidades Extra — Juaxtian</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #faf8f5; --bg2: #f3f0eb; --card: #ffffff;
+  --text: #1a1814; --text2: #5a5650;
+  --accent: #c17f3e; --accent2: #e8a855;
+  --accent-light: rgba(193,127,62,0.1);
+  --border: rgba(193,127,62,0.2);
+  --shadow: 0 4px 24px rgba(26,24,20,0.08);
+  --shadow-hover: 0 12px 40px rgba(26,24,20,0.14);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: 'Nunito', sans-serif; line-height: 1.7; }
+
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.1rem 3rem;
+  background: rgba(250,248,245,0.95); backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo { font-family: 'Lora', serif; font-size: 1.3rem; font-weight: 700; color: var(--text); text-decoration: none; }
+.nav-logo span { color: var(--accent); font-style: italic; }
+.nav-back {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  color: var(--text2); font-size: 0.85rem; font-weight: 600;
+  text-decoration: none; padding: 0.4rem 1rem;
+  border: 1px solid var(--border); border-radius: 2rem; transition: all 0.2s;
+}
+.nav-back:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-light); }
+
+.category-hero {
+  padding: 8rem 3rem 4rem;
+  max-width: 900px; margin: 0 auto; text-align: center;
+}
+.category-emoji { font-size: 4rem; display: block; margin-bottom: 1rem; }
+.category-tag {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  background: var(--accent-light); border: 1px solid var(--border);
+  color: var(--accent); font-size: 0.72rem; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 0.3rem 0.9rem; border-radius: 2rem; margin-bottom: 1rem;
+}
+.category-title {
+  font-family: 'Lora', serif; font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 700; line-height: 1.15; margin-bottom: 1rem;
+}
+.category-title em { font-style: italic; color: var(--accent); }
+.category-desc { font-size: 1rem; color: var(--text2); max-width: 560px; margin: 0 auto 1.5rem; line-height: 1.8; }
+.subcats { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; margin-bottom: 3rem; }
+.subcat {
+  background: var(--card); border: 1px solid var(--border);
+  color: var(--text2); font-size: 0.75rem; font-weight: 600;
+  padding: 0.3rem 0.9rem; border-radius: 2rem;
+}
+
+.articles-section { max-width: 900px; margin: 0 auto; padding: 0 3rem 6rem; }
+.articles-count { font-size: 0.82rem; color: var(--text2); font-weight: 600; margin-bottom: 1.5rem; }
+
+.articles-grid { display: grid; gap: 1.2rem; }
+
+.article-card {
+  display: flex; gap: 1.5rem; align-items: flex-start;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 1.2rem; padding: 1.5rem;
+  text-decoration: none; color: inherit;
+  transition: all 0.3s; position: relative; overflow: hidden;
+}
+.article-card::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+  width: 3px; background: linear-gradient(180deg, var(--accent), var(--accent2));
+  transform: scaleY(0); transform-origin: top; transition: transform 0.3s;
+}
+.article-card:hover { transform: translateX(6px); box-shadow: var(--shadow-hover); border-color: var(--accent); }
+.article-card:hover::before { transform: scaleY(1); }
+
+.article-thumb {
+  width: 80px; height: 80px; border-radius: 0.8rem;
+  background: var(--accent-light); display: flex; align-items: center;
+  justify-content: center; font-size: 2rem; flex-shrink: 0;
+}
+.article-info { flex: 1; }
+.article-tag {
+  display: inline-block; background: var(--accent-light); color: var(--accent);
+  font-size: 0.67rem; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; padding: 0.2rem 0.65rem;
+  border-radius: 1rem; margin-bottom: 0.5rem;
+}
+.article-info h3 {
+  font-family: 'Lora', serif; font-size: 1.1rem; font-weight: 700;
+  line-height: 1.3; margin-bottom: 0.4rem; color: var(--text);
+}
+.article-info p { font-size: 0.85rem; color: var(--text2); line-height: 1.7; margin-bottom: 0.6rem; }
+.article-meta { font-size: 0.72rem; color: var(--text2); display: flex; gap: 0.8rem; }
+
+/* Empty state */
+.empty-card {
+  background: var(--bg2); border: 1.5px dashed var(--border);
+  border-radius: 1.2rem; padding: 2.5rem; text-align: center;
+}
+.empty-card p { font-size: 0.9rem; color: var(--text2); line-height: 1.7; }
+
+footer {
+  padding: 1.5rem 3rem; border-top: 1px solid var(--border);
+  background: var(--bg2); display: flex;
+  justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
+}
+.footer-logo { font-family: 'Lora', serif; font-size: 1rem; font-weight: 700; color: var(--text); text-decoration: none; }
+.footer-logo span { color: var(--accent); font-style: italic; }
+.footer-copy { font-size: 0.72rem; color: var(--text2); }
+
+.other-pillars { max-width: 900px; margin: 0 auto; padding: 0 3rem 4rem; }
+.other-pillars h3 { font-family: 'Lora', serif; font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; }
+.pillars-row { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+.pillar-btn {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  background: var(--card); border: 1px solid var(--border);
+  color: var(--text2); font-size: 0.8rem; font-weight: 600;
+  padding: 0.45rem 1.1rem; border-radius: 2rem;
+  text-decoration: none; transition: all 0.2s;
+}
+.pillar-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+
+@media (max-width: 700px) {
+  nav { padding: 1rem 1.2rem; }
+  .category-hero, .articles-section, .other-pillars { padding-left: 1.2rem; padding-right: 1.2rem; }
+  .article-card { flex-direction: column; }
+  .article-thumb { width: 100%; height: 100px; }
+  footer { flex-direction: column; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Juaxt<span>ian</span></a>
+  <a href="index.html" class="nav-back">← Inicio</a>
+</nav>
+
+<div class="category-hero">
+  <span class="category-emoji">🎯</span>
+  <div class="category-tag">Pilar · Habilidades Extra</div>
+  <h1 class="category-title">Todo sobre<br><em>Habilidades Extra</em></h1>
+  <p class="category-desc">Comunicación, tecnología, creatividad, relaciones humanas y habilidades prácticas que marcan la diferencia en la vida real.</p>
+  <div class="subcats">
+    <span class="subcat">Comunicación</span>
+    <span class="subcat">Tecnología</span>
+    <span class="subcat">Creatividad</span>
+    <span class="subcat">Soft Skills</span>
+    <span class="subcat">Relaciones</span>
+    <span class="subcat">Habilidades prácticas</span>
+  </div>
+</div>
+
+<div class="articles-section">
+  <p class="articles-count">1 artículo publicado</p>
+  <div class="articles-grid">
+
+    <!-- ARTÍCULO 1 -->
+    <a href="el-bus-del-proyecto.html" class="article-card">
+      <div class="article-thumb">🚌</div>
+      <div class="article-info">
+        <span class="article-tag">Habilidades Extra</span>
+        <h3>El Bus del Proyecto: Por Qué No Debes Bajarte Cuando Ya Iniciaste el Viaje</h3>
+        <p>La perseverancia vista desde una metáfora cotidiana poderosa. Una idea que llegó en el momento menos esperado.</p>
+        <div class="article-meta">
+          <span>📅 Julio 2025</span>
+          <span>⏱️ 5 min lectura</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- PRÓXIMO ARTÍCULO — se reemplaza cuando publiques otro -->
+    <div class="empty-card">
+      <p>✍️ Más artículos de Habilidades Extra en camino...</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- OTROS PILARES -->
+<div class="other-pillars">
+  <h3>Explorar otros pilares</h3>
+  <div class="pillars-row">
+    <a href="economia.html" class="pillar-btn">💰 Economía</a>
+    <a href="espiritualidad.html" class="pillar-btn">✨ Espiritualidad</a>
+    <a href="salud.html" class="pillar-btn">🌿 Salud</a>
+    <a href="conocimiento.html" class="pillar-btn">📚 Conocimiento</a>
+  </div>
+</div>
+
+<footer>
+  <a href="index.html" class="footer-logo">Juaxt<span>ian</span></a>
+  <span class="footer-copy">© 2025 Juaxtian — Todos los derechos reservados</span>
+</footer>
+
+</body>
+</html>
